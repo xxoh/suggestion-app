@@ -8,7 +8,8 @@ if 'suggestions' not in st.session_state:
 # 건의 제출
 def submit_suggestion(student, suggestion):
     new_id = len(st.session_state.suggestions) + 1
-    st.session_state.suggestions = st.session_state.suggestions.append({'id': new_id, 'student': student, 'suggestion': suggestion, 'response': ''}, ignore_index=True)
+    new_suggestion = pd.DataFrame({'id': [new_id], 'student': [student], 'suggestion': [suggestion], 'response': ['']})
+    st.session_state.suggestions = pd.concat([st.session_state.suggestions, new_suggestion], ignore_index=True)
 
 # 건의 삭제
 def delete_suggestion(suggestion_id):
@@ -51,3 +52,4 @@ if user_type == '학생':
             st.write(f"**[{row['id']}] {row['suggestion']}**")
             if row['response']:
                 st.write(f"**답변**: {row['response']}")
+
